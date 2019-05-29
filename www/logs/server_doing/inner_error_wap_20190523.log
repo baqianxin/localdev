@@ -1,0 +1,13 @@
+{"ip":"172.20.0.1","time":"2019-05-23 11:48:17","GET":{"_url":"\/goods\/get_goods_list","city_id":"1"},"POST":[],"COOKIE":[],"HTTP_USER_AGENT":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/74.0.3729.169 Safari\/537.36","logid":null,"access_token":null,"errcode":10007,"errmsg":"inner system error","elapsed_time":0.11212587356567383}
+msg:SQLSTATE[42S02]: Base table or view not found: 1146 Table 'education.doing_goods' doesn't exist
+#0 [internal function]: PDOStatement->execute()
+#1 [internal function]: Phalcon\Db\Adapter\Pdo->executePrepared(Object(PDOStatement), Array, NULL)
+#2 [internal function]: Phalcon\Db\Adapter\Pdo->query('SELECT doing_go...', Array, NULL)
+#3 /opt/htdocs/server_doing/src/dao/GoodsDao.php(262): Phalcon\Db\Adapter->fetchAll('SELECT doing_go...', 2, Array)
+#4 /opt/htdocs/server_doing/src/logic/GoodsLogic.php(506): Doing\Src\Dao\GoodsDao->getGoodsListByTagId(7, '1', '', 1, Array)
+#5 /opt/htdocs/server_doing/app/wap/controller/GoodsController.php(46): Doing\Src\Logic\GoodsLogic->getGoodsListByCityIdAndSubjectId('1', '', 1, 1, 10, 1, 'down')
+#6 [internal function]: Doing\Wap\Controller\GoodsController->getGoodsListAction('1', '', 1, 1, 10, 'down')
+#7 [internal function]: Phalcon\Dispatcher->callActionMethod(Object(Doing\Wap\Controller\GoodsController), 'getGoodsListAct...', Array)
+#8 [internal function]: Phalcon\Dispatcher->dispatch()
+#9 /opt/htdocs/server_doing/app/wap/portal/index.php(39): Phalcon\Mvc\Application->handle(NULL)
+#10 {main}
