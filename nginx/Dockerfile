@@ -71,8 +71,8 @@ RUN cd /tmp/htdocs/nginx-1.15.12 && \
      make install
 
 COPY resources/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY resources/etc/nginx/fastcgi_params /etc/nginx/fastcgi_params
 
 EXPOSE 80 443
-
 #启动nginx
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
