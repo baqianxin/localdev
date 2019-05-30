@@ -1,2 +1,10 @@
 .DS_Store
 .idea/
+www/data
+www/htdocs
+www/logs
+
+www/htdocs/shop.doing
+www/htdocs/yii2-app-basic
+www/htdocs/server_doing
+www/data/mongodb_data/mongodb/data/db/diagnostic.data/metrics.interim

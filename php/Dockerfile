@@ -3,6 +3,9 @@ MAINTAINER oomcc <baqianxin@163.com>
 ARG PHALCON_VERSION=3.4.2
 ARG PHALCON_EXT_PATH=php7/64bits
 
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+	&& echo "Asia/Shanghai" > /etc/timezone
+
 RUN set -xe && \
         # Compile Phalcon
         curl -LO https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
@@ -41,10 +44,7 @@ COPY extension/mongodb.so /usr/local/lib/php/extensions/no-debug-non-zts-2018073
 RUN apt-get clean \
     && apt-get autoremove
 
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-	&& echo "Asia/Shanghai" > /etc/timezone 
-
-WORKDIR /opt 
+WORKDIR /opt
 
 # Write Permission
 RUN usermod -u 1000 www-data
