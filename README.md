@@ -1,7 +1,9 @@
 ###Docker-本地开发环境
 
 ###服务
-> Nginx+PHP+Mysql+Redis+MongoDB+TideWays+Xhgui
+>    Nginx+PHP+Mysql+Redis+
+
+>    MongoDB+TideWays+Xhgui
 
 ###细节介绍
 
