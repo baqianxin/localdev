@@ -42,3 +42,6 @@ services:
       - "27017:27017"
     volumes:
       - './www/data:/bitnami'
+networks:
+  sonarnet:
+    driver: bridge

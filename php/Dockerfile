@@ -33,11 +33,11 @@ ADD sources.list /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y
 
-RUN docker-php-ext-install pdo_mysql \
-    && docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install pdo_mysql bcmath \
+    && docker-php-ext-enable pdo_mysql bcmath
 
-RUN pecl install redis \
-    && docker-php-ext-enable redis
+#RUN pecl install redis \
+#    && docker-php-ext-enable redis
 
 COPY extension/docker-php-ext-tideways.ini /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
 COPY extension/tideways_xhprof.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/tideways.so
