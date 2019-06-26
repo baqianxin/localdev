@@ -1,3 +1,8 @@
 .DS_Store
 .idea/
-www/data/*
+www/devtools/
+www/data/
+www/sonar/data/
+www/sonar/.sonar/
+
+

@@ -1,13 +1,11 @@
-###Docker-本地开发环境
+### Docker-本地开发环境
 
-###服务
->    Nginx+PHP+Mysql+Redis+
+### 服务
+>    Nginx+PHP+Mysql+Redis+Sonar + PGSQL+ MongoDB+TideWays+Xhgui
 
->    MongoDB+TideWays+Xhgui
+### 细节介绍
 
-###细节介绍
-
-```yml
+```
 version: "2"
 services:
   nginx:
@@ -52,5 +50,7 @@ services:
       - "27017:27017"
     volumes:
       - './www/data:/bitnami'
-
+networks:
+  sonarnet:
+    driver: bridge
 ```

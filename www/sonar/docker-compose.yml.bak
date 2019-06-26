@@ -1,0 +1,57 @@
+version: "2"
+
+services:
+  sonarqube:
+    image: sonarqube
+    ports:
+      - "88:9000"
+    networks:
+      - sonarnet
+    environment:
+      #- SONARQUBE_JDBC_URL=jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+    volumes:
+      - ./.sonar:/home/sonarqube/.sonar
+      - ./sonarqube_conf:/opt/sonarqube/conf
+      - ./sonarqube_data:/opt/sonarqube/data
+      - ./sonarqube_extensions:/opt/sonarqube/extensions
+      - ./sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+      - ../shop.doing/:/opt/sonarqube/project/
+
+  db:
+    image: postgres
+    networks:
+      - sonarnet
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+      - ./postgresql_data:/var/lib/postgresql/data
+  jenkis:
+    image: jenkins/jenkins
+    networks:
+      - sonarnet
+    user: root
+    environment:
+      - JENKINS_USER=root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/bin/docker
+    restart: always
+
+networks:
+  sonarnet:
+    driver: bridge
+
+volumes:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
+  postgresql:
+  postgresql_data:
