@@ -23,6 +23,8 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
+        supervisor \
+        git \
     # 安装扩展
     && docker-php-ext-install -j$(nproc) iconv \
     # 如果安装的扩展需要自定义配置时

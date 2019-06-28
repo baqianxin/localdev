@@ -7,6 +7,7 @@ services:
     links:
       - "php"
       - "mongodb"
+      - "redis"
     volumes:
       - ./www:/opt
       - ./etc/nginx/conf.d:/etc/nginx/conf.d:rw
@@ -21,6 +22,7 @@ services:
       - "mongodb"
     volumes:
       - ./www:/opt
+      - ./supervisor/conf.d:/etc/supervisor/conf.d
 
   mysql:
     build: ./mysql
