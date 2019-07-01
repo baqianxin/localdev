@@ -16,6 +16,8 @@ RUN set -xe && \
             ${PWD}/v${PHALCON_VERSION}.tar.gz \
             ${PWD}/cphalcon-${PHALCON_VERSION}
 
+
+ADD sources.list /etc/apt/sources.list
 RUN apt-get update \
 	# 相关依赖必须手动安装
 	&& apt-get install -y \
@@ -30,10 +32,6 @@ RUN apt-get update \
     # 如果安装的扩展需要自定义配置时
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
-
-ADD sources.list /etc/apt/sources.list
-
-RUN apt-get update && apt-get install -y
 
 RUN docker-php-ext-install pdo_mysql bcmath  \
     && docker-php-ext-enable pdo_mysql bcmath
