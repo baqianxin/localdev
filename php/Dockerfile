@@ -17,7 +17,7 @@ RUN set -xe && \
             ${PWD}/cphalcon-${PHALCON_VERSION}
 
 
-ADD sources.list /etc/apt/sources.list
+#ADD sources.list /etc/apt/sources.list
 RUN apt-get update \
 	# 相关依赖必须手动安装
 	&& apt-get install -y \

@@ -5,7 +5,29 @@ ENV TZ "Asia/Shanghai"
 
 #Yum
 RUN yum -y update && \
-    yum install -y gcc automake autoconf libtool make gcc-c++ vixie-cron  wget zlib  file openssl-devel sharutils zip  bash vim cyrus-sasl-devel libmemcached libmemcached-devel libyaml libyaml-devel unzip libvpx-devel openssl-devel ImageMagick-devel  autoconf  tar gcc libxml2-devel gd-devel libmcrypt-devel libmcrypt mcrypt mhash libmcrypt libmcrypt-devel libxml2 libxml2-devel bzip2 bzip2-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype-devel bison libtool-ltdl-devel net-tools && \
+    yum install -y gcc automake \
+        autoconf libtool make gcc-c++ \
+        vixie-cron  wget zlib  \
+        file openssl-devel sharutils zip \
+        bash vim cyrus-sasl-devel \
+        libmemcached \
+        libmemcached-devel \
+        libyaml libyaml-devel \
+        unzip libvpx-devel \
+        openssl-devel \
+        ImageMagick-devel  \
+        autoconf  tar gcc \
+        libxml2-devel gd-devel \
+        libmcrypt-devel libmcrypt mcrypt \
+        mhash \
+        libxml2 libxml2-devel \
+        bzip2 bzip2-devel \
+        curl curl-devel libjpeg \
+        libjpeg-devel libpng \
+        libpng-devel \
+        freetype-devel bison \
+        libtool-ltdl-devel \
+        net-tools && \
     yum clean all
 
 RUN mkdir -p /var/log/nginx && \
