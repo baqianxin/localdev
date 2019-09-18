@@ -1,0 +1,104 @@
+version: "3.1"
+services:
+  nginx:
+    build: ./server/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    links:
+      - "php"
+      - "mongodb"
+    volumes:
+      - ./logs:/opt/logs
+      - ./www:/opt/htdocs
+      - ./config/nginx/conf.d:/etc/nginx/conf.d:rw
+
+  php:
+    build: ./server/php
+    container_name: php7
+    ports:
+      - "9000:9000"
+    links:
+      - "mysql"
+      - "redis"
+      - "mongodb"
+    volumes:
+      - ./www/quclient:/home/q/php/quclient
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./config/php/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./www:/opt/htdocs
+      - ./logs:/opt/logs
+  go:
+    build: ./server/go
+    ports:
+      - 88:88
+    volumes:
+      - ./www/goproject:/go/src/project
+  mysql:
+    build: ./server/mysql
+    container_name: mysql5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./config/mysql/mysqld.conf:/etc/mysql/mysql.conf.d
+      - ./data/mysql:/var/lib/mysql
+      - ./logs:/opt/logs
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart:
+      always
+
+  redis:
+    build: ./server/redis
+    ports:
+      - "6379:6379"
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /mongodata:/data/db
+
+  elk:
+    image: sebp/elk
+    volumes:
+      - ./logs/elasticsearch:/opt/elasticsearch/logs
+      - ./config/elk/kibana.yml:/opt/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.3.1
+    volumes:
+      - ./logs:/opt/logs
+      - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./config/filebeat/modules.d:/usr/share/filebeat/modules.d
+    links:
+      - elk
+    environment:
+      KIBANA_HOST: 'elk:5601'
+      ELASTICSEARCH_HOSTS: 'elk:9200'
+      ELASTICSEARCH_USERNAME: ''
+      ELASTICSEARCH_PASSWORD: ''
+
+  canal:
+    image: canal/canal-server
+    ports:
+      - 2222:2222
+      - 8000:8000
+      - 11111:11111
+      - 11112:11112
+    links:
+      - mysql
+    environment:
+      canal.destinations: 'test'
+      canal.instance.master.address: 'mysql:3306'
+      canal.instance.dbUsername: 'canal'
+      canal.instance.dbPassword: 'canal'
+      canal.instance.connectionCharset: 'UTF-8'
+      canal.instance.tsdb.enable: 'true'
+      canal.instance.gtidon: 'false'
+

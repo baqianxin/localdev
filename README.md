@@ -1,0 +1,56 @@
+###Docker-本地开发环境
+
+###服务
+>    Nginx+PHP+Mysql+Redis+
+
+>    MongoDB+TideWays+Xhgui
+
+###细节介绍
+
+```yml
+version: "2"
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    links:
+      - "php"
+      - "mongodb"
+    volumes:
+      - ./www:/opt
+      - ./etc/nginx/conf.d:/etc/nginx/conf.d:rw
+
+  php:
+    build: ./php
+    ports:
+      - "9000:9000"
+    links:
+      - "mysql"
+      - "redis"
+      - "mongodb"
+    volumes:
+      - ./www:/opt
+
+  mysql:
+    build: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./www/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+
+  redis:
+    build: ./redis
+    ports:
+      - "6379:6379"
+
+  mongodb:
+    image: 'bitnami/mongodb:4.0'
+    ports:
+      - "27017:27017"
+    volumes:
+      - './www/data:/bitnami'
+
+```

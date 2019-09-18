@@ -1,0 +1,22 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'
+  index: 'jiagu_app_log_test'
+
+setup.ilm.enabled: false
+setup.template:
+  name: 'jiagu_app_log_test'
+  pattern: 'jiagu_app_log_test-*'
+  enabled: false
+
+setup.kibana:
+  host: '${KIBANA_HOST:}'
