@@ -8,4 +8,5 @@ RUN pip install --no-cache-dir -r pip_packages.list
 RUN pip uninstall numpy -y && pip install numpy==1.16.0
 
 COPY . .
-CMD [ "python", "./main.py" ]
+RUN export TERM=dumb
+CMD [ "top" ]

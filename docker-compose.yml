@@ -12,6 +12,7 @@ services:
       - ./logs:/opt/logs
       - ./www:/opt/htdocs
       - ./config/nginx/conf.d:/etc/nginx/conf.d:rw
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
 
   php:
     build: ./server/php

@@ -1,5 +1,10 @@
 version: "3.1"
 services:
+  dev_tensorflow:
+    image: oomcc/tensorflow:latest
+    container_name: dev_tensorflow
+    volumes:
+      - .:/usr/src/app
   tensorflow-serving:
     image: tensorflow/serving
     container_name: tensorflow_serving
