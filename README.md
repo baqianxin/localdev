@@ -1,5 +1,22 @@
 ## Docker-本地开发环境
 
+```bahs
+baqianxin@baqianxin-l3 MINGW64 /e/workspace
+$ cd dev/ 
+
+baqianxin@baqianxin-l3 MINGW64 /e/workspace/dev (dev)
+$ docker-compose start
+Starting go       ... done
+Starting mysql    ... done
+Starting redis    ... done
+Starting mongodb  ... done
+Starting php      ... done
+Starting nginx    ... done
+Starting elk      ... done
+Starting filebeat ... done
+Starting canal    ... done
+```
+
 ### 基础服务
 - nginx
 - php
