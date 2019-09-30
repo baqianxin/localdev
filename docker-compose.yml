@@ -29,6 +29,7 @@ services:
       - ./config/php/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./www:/opt/htdocs
       - ./logs:/opt/logs
+      - ./data:/data
   go:
     build: ./server/go
     ports:

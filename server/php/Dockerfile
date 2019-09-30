@@ -19,6 +19,7 @@ RUN set -xe && \
 RUN apt-get update \
 	# 相关依赖必须手动安装
 	&& apt-get install -y \
+        libzip-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
@@ -36,8 +37,8 @@ RUN apt-get update && apt-get install -y
 RUN docker-php-ext-install pdo_mysql \
     && docker-php-ext-enable pdo_mysql
 
-RUN pecl install redis yaf \
-    && docker-php-ext-enable redis yaf
+RUN pecl install redis yaf zip \
+    && docker-php-ext-enable redis yaf zip
 
 COPY extension/docker-php-ext-tideways.ini /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
 COPY extension/tideways_xhprof.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/tideways.so

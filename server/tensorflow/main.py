@@ -14,6 +14,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 print(tf.__version__)
+
 # import data
 fashion_mnist = keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -21,12 +22,12 @@ fashion_mnist = keras.datasets.fashion_mnist
 # defined type list
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat','Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 # explore data
-print(train_images.shape)
+# print(train_images.shape)
 
-print(len(train_labels))
-print(train_labels)
-print(test_images.shape)
-len(test_labels)
+# print(len(train_labels))
+# print(train_labels)
+# print(test_images.shape)
+# len(test_labels)
 
 #preprocess data
 plt.figure()
@@ -51,22 +52,31 @@ for i in range(25):
 plt.show()
 plt.savefig("./temp.png")
 
+
+
 # build the model
-model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(128, activation=tf.nn.relu),
-    keras.layers.Dense(10, activation=tf.nn.softmax)
-])
+# model = keras.Sequential([
+#     keras.layers.Flatten(input_shape=(28, 28)),
+#     keras.layers.Dense(128, activation=tf.nn.relu),
+#     keras.layers.Dense(10, activation=tf.nn.softmax)
+# ])
 
-model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
+file_path = './data/model'
 
-model.fit(train_images, train_labels, epochs=5)
+model = keras.models.load_model(file_path + "/my_model")
+model.summary()
+# model.compile(optimizer='adam',
+#               loss='sparse_categorical_crossentropy',
+#               metrics=['accuracy'])
 
-test_loss, test_acc = model.evaluate(test_images, test_labels)
+# model.fit(train_images, train_labels, epochs=5)
 
-print('Test accuracy:', test_acc)
+# test_loss, test_acc = model.evaluate(test_images, test_labels)
+
+# print('Test accuracy:', test_acc)
+# if not os.path.exists(file_path):
+#     os.makedirs(file_path)
+# model.save(file_path+"/my_model")
 
 predictions = model.predict(test_images)
 predictions[0]
@@ -82,6 +92,7 @@ def plot_image(i, predictions_array, true_label, img):
   plt.imshow(img, cmap=plt.cm.binary)
 
   predicted_label = np.argmax(predictions_array)
+  # print(predicted_label)
   if predicted_label == true_label:
     color = 'blue'
   else:
@@ -109,7 +120,7 @@ plt.figure(figsize=(6,3))
 plt.subplot(1,2,1)
 plot_image(i, predictions, test_labels, test_images)
 plt.subplot(1,2,2)
-print(plot_value_array(i, predictions,  test_labels))
+plot_value_array(i, predictions,  test_labels)
 plt.show()
 plt.savefig("./temp0.png")
 
@@ -137,20 +148,13 @@ plt.show()
 plt.savefig("./tmp5-3.png")
 img = test_images[0]
 
-print(img.shape)
-
 # Add the image to a batch where it's the only member.
 img = (np.expand_dims(img,0))
 
-print(img.shape)
-
 predictions_single = model.predict(img)
-
-print(predictions_single)
 
 plot_value_array(0, predictions_single, test_labels)
 plt.xticks(range(10), class_names, rotation=45)
 plt.show()
 plt.savefig("./tmp_result1.png")
 prediction_result = np.argmax(predictions_single[0])
-print(prediction_result)
