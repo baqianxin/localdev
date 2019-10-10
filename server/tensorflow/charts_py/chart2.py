@@ -39,5 +39,6 @@ ax.plot_surface(X, Y, Z, alpha=0.7, cmap='jet', rstride=1, cstride=1, lw=0)
 # 第二个子图，网线图
 ax = fig.add_subplot(1, 2, 2, projection='3d')
 ax.plot_wireframe(X, Y, Z, rstride=3, cstride=3, lw=0.5)
+# 允许鼠标旋转控制
 Axes3D.mouse_init(ax)
 pyplot.show()

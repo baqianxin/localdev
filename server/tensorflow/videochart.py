@@ -24,7 +24,7 @@ plt.xlabel('x')
 plt.title('test')
 line_ani = animation.FuncAnimation(fig1, update_line, 25, fargs=(data, l),
                                    interval=50, blit=True)
-line_ani.save('lines.mp4', writer=writer)
+line_ani.save('./data/videos/lines.mp4', writer=writer)
 
 fig2 = plt.figure()
 
@@ -37,4 +37,4 @@ for add in np.arange(15):
 
 im_ani = animation.ArtistAnimation(fig2, ims, interval=50, repeat_delay=3000,
                                    blit=True)
-im_ani.save('im.mp4', writer=writer)
+im_ani.save('./data/videos/im.mp4', writer=writer)

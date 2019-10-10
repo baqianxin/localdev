@@ -50,7 +50,7 @@ for i in range(25):
     plt.imshow(train_images[i], cmap=plt.cm.binary)
     plt.xlabel(class_names[train_labels[i]])
 plt.show()
-plt.savefig("./temp.png")
+plt.savefig("./data/images/temp.png")
 
 
 
@@ -122,7 +122,7 @@ plot_image(i, predictions, test_labels, test_images)
 plt.subplot(1,2,2)
 plot_value_array(i, predictions,  test_labels)
 plt.show()
-plt.savefig("./temp0.png")
+plt.savefig("./data/images/temp0.png")
 
 # test 12th image
 i = 12
@@ -132,7 +132,7 @@ plot_image(i, predictions, test_labels, test_images)
 plt.subplot(1,2,2)
 plot_value_array(i, predictions,  test_labels)
 plt.show()
-plt.savefig("./temp12.png")
+plt.savefig("./data/images/temp12.png")
 
 # test 5th Row  3th Column
 num_rows = 5
@@ -145,7 +145,7 @@ for i in range(num_images):
   plt.subplot(num_rows, 2*num_cols, 2*i+2)
   plot_value_array(i, predictions, test_labels)
 plt.show()
-plt.savefig("./tmp5-3.png")
+plt.savefig("./data/images/tmp5-3.png")
 img = test_images[0]
 
 # Add the image to a batch where it's the only member.
@@ -156,5 +156,5 @@ predictions_single = model.predict(img)
 plot_value_array(0, predictions_single, test_labels)
 plt.xticks(range(10), class_names, rotation=45)
 plt.show()
-plt.savefig("./tmp_result1.png")
+plt.savefig("./data/images/tmp_result1.png")
 prediction_result = np.argmax(predictions_single[0])
