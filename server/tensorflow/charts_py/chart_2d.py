@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+"""
+学习mpl 画图，以及np随机取值，计算方式
+"""
 
 # 通过rcParams 设置全局横纵坐标轴字体大小
 mpl.rcParams['xtick.labelsize'] =24
@@ -8,7 +11,7 @@ mpl.rcParams['ytick.labelsize'] =24
 np.random.seed(42)
 
 # x轴的采样点
-x= np.linspace(0,5,100)
+x= np.linspace(0,10,100)
 # 通过下面曲线加上噪声 生成数据
 y = 2*np.sin(x)+0.3*x**2
 y_data = y + np.random.normal(scale=0.3 , size = 100)
@@ -22,7 +25,7 @@ plt.plot(x,y)
 plt.figure('我的图表 & model')
 plt.plot(x,y,'y',lw=3)
 plt.scatter(x,y_data)
-plt.savefig("./data/images/chart_2d.png")
+plt.savefig('./data/images/chart_2d.png')
 plt.show()
 
 

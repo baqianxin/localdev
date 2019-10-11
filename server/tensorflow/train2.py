@@ -14,6 +14,7 @@ print("Eager execution: {}".format(tf.executing_eagerly()))
 
 '''
 用于训练生成鸢尾花iris识别模型
+https://tensorflow.google.cn/tutorials/eager/custom_training_walkthrough
 @训练图表：./data/images/iris_*.png
 @模型文件：./data/model/iris-model
 @使用环境：
