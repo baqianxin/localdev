@@ -5,7 +5,7 @@ import os as os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
-tf.enable_eager_execution()
+# tf.enable_eager_execution()
 tf.executing_eagerly()
 
 x = [[2.]]
@@ -30,7 +30,7 @@ d =  tf.constant([
     [3,3,3]
 ])
 e = tf.matmul(a,d)
-print(e)
+# print(e)
 
 # 动态流控制
 
@@ -49,4 +49,4 @@ def fizzbuzz(max_num):
       print(num.numpy())
     counter += 1
 
-fizzbuzz(15)    
+# fizzbuzz(15)
