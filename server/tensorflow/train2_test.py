@@ -2,7 +2,8 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import tensorflow as tf
-import tensorflow.contrib.eager as tfe
+import tensorflow_hub as hub
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 tf.compat.v1.enable_eager_execution()
 
@@ -27,3 +28,13 @@ for i, logits in enumerate(predictions):
     p = tf.nn.softmax(logits)[class_idx]
     name = class_names[class_idx]
     print("Example {} prediction: {} ({:4.1f}%)".format(i, name, 100*p))
+
+
+# 加载 影评 模型 
+model = tf.keras.models.load_model( "./data/model/imdb_model.h5", custom_objects={'KerasLayer': hub.KerasLayer})
+# 解析测试数据集
+embed = hub.load("https://hub.tensorflow.google.cn/google/tf2-preview/gnews-swivel-20dim/1")
+embeddings = embed(["i love you"])
+predictions = model(embeddings)
+
+print(predictions)

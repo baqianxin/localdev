@@ -23,7 +23,7 @@ d=[i for i, val in enumerate(b) if math.isclose(max(b), val, rel_tol = 1e-03)]
 print(sum(a),c,d)
 
 # 数组的运算
-a=np.array([[6,2,3],[4,5,6],[7,8,9]])
+a=np.array([[6,2,3],[6,5,6],[7,8,9]])
 ## 转置
 b=a.transpose()
 ## 行列式

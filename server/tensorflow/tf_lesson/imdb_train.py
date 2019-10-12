@@ -3,7 +3,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import numpy as np
 
 import tensorflow as tf
-
 import tensorflow_hub as hub
 import tensorflow_datasets as tfds
 
@@ -43,12 +42,13 @@ model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
-
+model.save("./data/model/imdb_model.h5")
 # 开始拟合训练
 history = model.fit(train_data.shuffle(10000).batch(512),
                     epochs=20,
                     validation_data=validation_data.batch(512),
                     verbose=1)
+
 
 # 评估模型
 results = model.evaluate(test_data.batch(512), verbose=2)

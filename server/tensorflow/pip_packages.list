@@ -2,3 +2,5 @@ tensorflow
 matplotlib
 numpy==1.16.0
 SciPy>=1.13.3
+pillow
+zipfile
