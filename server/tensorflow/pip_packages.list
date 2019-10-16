@@ -2,7 +2,7 @@ tensorflow
 tensorflow_hub
 tensorflow_datasets
 matplotlib
-numpy==1.16.0
-SciPy>=1.13.3
+numpy
+SciPy
 pillow
 zipfile

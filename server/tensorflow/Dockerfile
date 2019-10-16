@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.6
 
 RUN apt update && apt install python3-tk  -y && apt install -f
 WORKDIR /usr/src/app
