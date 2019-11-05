@@ -1,10 +1,8 @@
 ## Docker-本地开发环境
 
-```bahs
-baqianxin@baqianxin-l3 MINGW64 /e/workspace
-$ cd dev/ 
+```bash
 
-baqianxin@baqianxin-l3 MINGW64 /e/workspace/dev (dev)
+oom@oom-l3 MINGW64 /e/workspace/dev (dev)
 $ docker-compose start
 Starting go       ... done
 Starting mysql    ... done
@@ -26,21 +24,36 @@ Starting canal    ... done
 - elk
 
 
-### 包含应用-扩展
-  - filebeat : 日志文件收集工具，同步到ES，日志模板，kibana看板模板
-  - mongo：存储PHP接口性能分析结果
+### 我的应用-扩展
+  - filebeat : 日志文件收集工具，同步到 ES，日志模板，kibana看板模板
+  - mongo：存储 PHP 接口性能分析结果
   - xhgui：性能监控数据可视化
-  - tideways：非侵入式监控服务PHP扩展
-  - yaf：PHP扩展工作框架
-  - beego:go语言Web服务框架，工作使用
-  - phalcon：PHP扩展工作框架：以此为基础重构过web服务，二次框架设计
-  - canal-go-client：canal日志消费者-go语言版本
+  - tideways：非侵入式监控服务 PHP 扩展
+  - yaf：PHP 扩展工作框架
+  - beego: go 语言 Web 服务框架，工作使用
+  - phalcon：PHP 扩展工作框架：以此为基础重构过 web 服务，二次框架设计
+  - canal-go-client：canal 日志消费者- go 语言版本
   - tensorflow：深度学习框架
-  - canal-server:msyql 二进制日志解析服务，可用于数据同步；查询以ES为主，MySQL数据变动同步到ES
+  - canal-server: msyql 二进制日志解析服务，可用于数据同步；查询以ES为主，MySQL数据变动同步到ES
   - tensorflow-server：模型部署服务
-> nginx扩展有几个：headers-more-nginx-module....
+  - manim: LaTex -> Animation Video 数学老师[ Grant ](https://www.3blue1brown.com)的视频制作工具
+  - - LaTeX:文档编排
+  - - ImageMagic : [图片处理](https://imagemagick.org/script/download.php)
+  - - FFmpeg : [视频处理](http://www.ffmpeg.org/download.html)
+> nginx 扩展：headers-more-nginx-module....
 
-### 服务编排
+```
+LaTeX:
+    Lambda
+
+视频文件转换为 gif 图片 ffmpeg
+ffmpeg -i output/OpeningManimExample.mp4   -r 15 -vf fps=15,scale=700:-1   output/OpeningManimExample.gif 
+
+压缩 gif 图片 ImageMagic
+convert -fuzz 15% OpeningManimExample.gif -layers Optimize op_ome.gif
+```
+
+### 基础服务编排
 
 ```yml
 version: "3.1"
