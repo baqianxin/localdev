@@ -5,7 +5,7 @@ ENV TZ "Asia/Shanghai"
 
 #Yum
 RUN yum -y update && \
-    yum install -y gcc automake autoconf libtool make gcc-c++ vixie-cron  wget zlib  file openssl-devel sharutils zip  bash vim cyrus-sasl-devel libmemcached libmemcached-devel libyaml libyaml-devel unzip libvpx-devel openssl-devel ImageMagick-devel  autoconf  tar gcc libxml2-devel gd-devel libmcrypt-devel libmcrypt mcrypt mhash libmcrypt libmcrypt-devel libxml2 libxml2-devel bzip2 bzip2-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype-devel bison libtool-ltdl-devel net-tools && \
+    yum install -y git gcc automake autoconf libtool make gcc-c++ vixie-cron  wget zlib  file openssl-devel sharutils zip  bash vim cyrus-sasl-devel libmemcached libmemcached-devel libyaml libyaml-devel unzip libvpx-devel openssl-devel ImageMagick-devel  autoconf  tar gcc libxml2-devel gd-devel libmcrypt-devel libmcrypt mcrypt mhash libmcrypt libmcrypt-devel libxml2 libxml2-devel bzip2 bzip2-devel curl curl-devel libjpeg libjpeg-devel libpng libpng-devel freetype-devel bison libtool-ltdl-devel net-tools && \
     yum clean all
 
 RUN mkdir -p /var/log/nginx && \
@@ -14,18 +14,32 @@ RUN mkdir -p /var/log/nginx && \
     useradd -s /sbin/nologin -M nginx
 
 COPY resources/headers-more-nginx-module-0.33.tar.gz /tmp/htdocs/headers-more-nginx-module-0.33.tar.gz
-COPY resources/nginx-1.15.12.tar.gz /tmp/htdocs/nginx-1.15.12.tar.gz
+COPY resources/nginx-1.16.1.tar.gz /tmp/htdocs/nginx-1.16.1.tar.gz
+COPY resources/lua-nginx-module-0.10.15.tar.gz /tmp/htdocs/lua-nginx-module-0.10.15.tar.gz
 
+#Headers more
 RUN mkdir -p /tmp/htdocs/headers-more-nginx-module \
         && tar -xf /tmp/htdocs/headers-more-nginx-module-0.33.tar.gz -C /tmp/htdocs/headers-more-nginx-module --strip-components=1 \
         && rm /tmp/htdocs/headers-more-nginx-module-0.33.tar.gz
 
-RUN mkdir -p /tmp/htdocs/nginx-1.15.12 \
-        && tar -xf /tmp/htdocs/nginx-1.15.12.tar.gz -C /tmp/htdocs/nginx-1.15.12 --strip-components=1 \
-        && rm /tmp/htdocs/nginx-1.15.12.tar.gz
-
+RUN mkdir -p /tmp/htdocs/nginx-1.16.1 \
+        && tar -xf /tmp/htdocs/nginx-1.16.1.tar.gz -C /tmp/htdocs/nginx-1.16.1 --strip-components=1 \
+        && rm /tmp/htdocs/nginx-1.16.1.tar.gz
+#Lua
+RUN wget http://luajit.org/download/LuaJIT-2.0.5.tar.gz \
+         && mkdir -p /tmp/htdocs/luajit \
+         && tar -xf ./LuaJIT-2.0.5.tar.gz -C /tmp/htdocs/luajit --strip-components=1 \
+         && cd /tmp/htdocs/luajit && make && make install \
+         && export LUAJIT_LIB=/usr/local/lib \
+         && export LUAJIT_INC=/usr/local/include/luajit-2.0 \
+         && ln -s /usr/local/lib/libluajit-5.1.so.2 /usr/lib64/libluajit-5.1.so.2 
+        #  && ln -s /usr/local/lib/libluajit-5.1.so /usr/lib64/libluajit-5.1.so
+RUN mkdir -p /tmp/htdocs/lua-nginx-module \
+    && tar -xf /tmp/htdocs/lua-nginx-module-0.10.15.tar.gz -C /tmp/htdocs/lua-nginx-module \
+    && rm /tmp/htdocs/lua-nginx-module-0.10.15.tar.gz
+RUN git clone https://github.com/simpl/ngx_devel_kit.git  /tmp/htdocs/ngx_devel_kit
 #Nginx
-RUN cd /tmp/htdocs/nginx-1.15.12 && \
+RUN cd /tmp/htdocs/nginx-1.16.1 && \
     ./configure \
      --prefix=/etc/nginx \
      --sbin-path=/usr/sbin/nginx \
@@ -66,6 +80,9 @@ RUN cd /tmp/htdocs/nginx-1.15.12 && \
      --with-stream_realip_module \
      --with-stream_ssl_module \
      --with-stream_ssl_preread_module \
+     --with-ld-opt="-Wl,-rpath,$LUAJIT_LIB" \
+     --add-module=/tmp/htdocs/ngx_devel_kit \
+     --add-module=/tmp/htdocs/lua-nginx-module/lua-nginx-module-0.10.15 \
      --add-module=/tmp/htdocs/headers-more-nginx-module && \
      make && \
      make install
