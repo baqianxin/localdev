@@ -1,0 +1,6 @@
+#禁用密码验证
+PasswordAuthentication no
+#启用密钥验证
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys

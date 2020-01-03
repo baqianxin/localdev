@@ -111,6 +111,8 @@ services:
     ports:
       - "8081:8081"
     command: jobmanager
+    volumes:
+      - ./www:/opt/htdocs
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
 
@@ -124,5 +126,7 @@ services:
     command: taskmanager
     links:
       - "jobmanager:jobmanager"
+    volumes:
+      - ./www:/opt/htdocs
     environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    - JOB_MANAGER_RPC_ADDRESS=jobmanager
