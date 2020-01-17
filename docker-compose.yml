@@ -129,4 +129,18 @@ services:
     volumes:
       - ./www:/opt/htdocs
     environment:
-    - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+
+  jiagu-mini:
+    container_name: centos7
+    image:  oomcc/centos7:latest
+    privileged: true
+    volumes: 
+      - ./www:/opt/htdocs
+      - ./data:/data
+    ports:
+      - 81:80
+      - 443:443
+      - 21:21
+      - 9527:9527
+
