@@ -1,0 +1,44 @@
+version: "3.1"
+services:
+  hbase:
+    build: ./server/hbase
+    container_name: hbase
+    ports:
+      - "16010:16010"
+    volumes:
+      - ./logs:/opt/logs
+      - ./www:/opt/htdocs
+
+  spark-master:
+    build: ./server/spark
+    container_name: spark-master
+    ports:
+      - "6066:6066"
+      - "7077:7077"
+      - "8180:8080"
+      - "8188:8088"
+      - "4040:4040"
+      - "18180:18080"
+    links:
+      - "hbase"
+    environment:
+      RPWD: 123456
+    command: "/usr/local/spark/bin/spark-class org.apache.spark.deploy.master.Master "
+    volumes:
+      - ./www:/opt/htdocs
+      - ./logs:/opt/logs
+      - ./data:/data
+
+  spark-cluster:
+    build: ./server/spark
+    container_name: spark-cluster
+    ports:
+      - "8181:8081"
+    links:
+      - "hbase"
+      - "spark-master"
+    command: "./bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077"
+    volumes:
+      - ./www:/opt/htdocs
+      - ./logs:/opt/logs
+      - ./data:/data
