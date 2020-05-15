@@ -13,6 +13,8 @@ Starting nginx    ... done
 Starting elk      ... done
 Starting filebeat ... done
 Starting canal    ... done
+Starting airflow    ... done
+Starting flink    ... done
 ```
 
 ### 基础服务
@@ -25,6 +27,12 @@ Starting canal    ... done
 
 
 ### 我的应用-扩展
+  - Hadoop : 暂未集成（用于打点日志的存储，统计）
+  - Kafka ：消息队列，存储打点日志信息
+  - Lua : (OpenResty) 提供打点接口，逻辑简单，调用频繁，日志数据落地到文件-Kafka
+  - Spark : MapReduce封装，用于日志数据的清洗
+  - flink : 实时流计算服务（用于日志打点收集，统计PV/UV数据）
+  - airflow : 分布式任务（DAG有向无环图）调度服务（批量大数据处理任务调度 收集->清洗->拆分->过滤->统计->其他业务操作...） 
   - filebeat : 日志文件收集工具，同步到 ES，日志模板，kibana看板模板
   - mongo：存储 PHP 接口性能分析结果
   - xhgui：性能监控数据可视化
@@ -32,9 +40,8 @@ Starting canal    ... done
   - yaf：PHP 扩展工作框架
   - beego: go 语言 Web 服务框架，工作使用
   - phalcon：PHP 扩展工作框架：以此为基础重构过 web 服务，二次框架设计
-  - canal-go-client：canal 日志消费者- go 语言版本
   - tensorflow：深度学习框架
-  - canal-server: msyql 二进制日志解析服务，可用于数据同步；查询以ES为主，MySQL数据变动同步到ES
+  - canal-server: msyql 二进制日志解析服务，可用于数据同步；（eg.部分业务查询以ES为主，MySQL数据变动同步到ES)（canal-go-client：canal 日志消费者-go版本）
   - tensorflow-server：模型部署服务
   - manim: LaTex -> Animation Video 数学老师[ Grant ](https://www.3blue1brown.com)的视频制作工具
   - - LaTeX:文档编排
