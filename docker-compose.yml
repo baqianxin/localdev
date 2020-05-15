@@ -7,7 +7,6 @@ services:
       - "80:80"
     links:
       - "php"
-      - "mongodb"
     volumes:
       - ./logs:/opt/logs
       - ./www:/opt/htdocs
@@ -22,7 +21,6 @@ services:
     links:
       - "mysql"
       - "redis"
-      - "mongodb"
     volumes:
       - ./www/quclient:/home/q/php/quclient
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
@@ -40,7 +38,7 @@ services:
     build: ./server/mysql
     container_name: mysql5.7
     ports:
-      - "3306:3306"
+      - "33036:3306"
     volumes:
       - ./config/mysql/mysqld.conf:/etc/mysql/mysql.conf.d
       - ./data/mysql:/var/lib/mysql
@@ -60,7 +58,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /mongodata:/data/db
+      - ~/mongodata:/data/db
 
   elk:
     image: sebp/elk
