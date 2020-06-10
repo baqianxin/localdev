@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mydb:
+    image: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_DB: sonar
+      POSTGRES_PASSWORD: sonar
+    ports:
+      - "5433:5432"
+  sonarqube:
+    image: sonarqube
+    environment:
+      sonar.jdbc.username: sonar
+      sonar.jdbc.password: sonar
+      sonar.jdbc.url: jdbc:postgresql://mydb:5432/sonar
+    ports:
+      - "9823:9000"
+    volumes:
+      - .sonar:/home/sonarqube/.sonar
+      - ./scaner:/opt/sonarqube/scanner
