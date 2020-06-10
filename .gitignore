@@ -5,3 +5,6 @@ logs/*
 data/*
 pdata
 *.csv
+crlog
+scaner
+.sonar
