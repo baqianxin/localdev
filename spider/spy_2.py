@@ -40,8 +40,9 @@ def get_comments():
 
 # 数据清洗处理模块
 
+xt=""
 
-def data_clear():
+def data_clear(xt):
     xt = get_comments()
     pattern = re.compile(r'[\u4e00-\u9fa5]+')
     filedata = re.findall(pattern, xt)
@@ -59,17 +60,18 @@ def data_clear():
     # if os.path.exists("count_words.csv"):
     #     os.remove('count_words.csv')
     # df.to_csv('count_words.csv', encoding='GBK')
+    xt = count_words
     return count_words
 
 # 词云展示模块
 
 
 def make_wordclound():
-    d = path.dirname(__file__)
-    msk = np.array(Image.open(path.join(d, "151.jpg")))
-    word_frequence = {x[0]: x[1] for x in data_clear().head(200).values}
+    # d = path.dirname(__file__)
+    # msk = np.array(Image.open(path.join(d, "151.jpg")))
+    word_frequence = {x[0]: x[1] for x in data_clear(xt).head(200).values}
     wordcloud = WordCloud(font_path="simsun.ttc", # mask=msk,
-                          background_color="#EEEEEE", max_font_size=250, width=2100, height=800)
+                          background_color="#EEEEEE", max_font_size=250, width=2100, height=1200)
     wordcloud = wordcloud.fit_words(word_frequence)
     plt.imshow(wordcloud)
     plt.axis("off")

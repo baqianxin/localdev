@@ -27,16 +27,18 @@ Starting flink    ... done
 
 
 ### 我的应用-扩展
-  - Hadoop : 暂未集成（用于打点日志的存储，统计）
+  - SonarQube : 代码检测服务
+    - PostgreSQL : 存储检测上报的信息，也可直接本地文件存储
   - Kafka ：消息队列，存储打点日志信息
   - Lua : (OpenResty) 提供打点接口，逻辑简单，调用频繁，日志数据落地到文件-Kafka
+  - Hadoop : -
   - Spark : MapReduce封装，用于日志数据的清洗
   - flink : 实时流计算服务（用于日志打点收集，统计PV/UV数据）
   - airflow : 分布式任务（DAG有向无环图）调度服务（批量大数据处理任务调度 收集->清洗->拆分->过滤->统计->其他业务操作...） 
   - filebeat : 日志文件收集工具，同步到 ES，日志模板，kibana看板模板
-  - mongo：存储 PHP 接口性能分析结果
-  - xhgui：性能监控数据可视化
   - tideways：非侵入式监控服务 PHP 扩展
+    - mongo：存储 PHP 接口性能分析结果
+    - xhgui：性能监控数据可视化
   - yaf：PHP 扩展工作框架
   - beego: go 语言 Web 服务框架，工作使用
   - phalcon：PHP 扩展工作框架：以此为基础重构过 web 服务，二次框架设计
@@ -59,6 +61,10 @@ ffmpeg -i output/OpeningManimExample.mp4   -r 15 -vf fps=15,scale=700:-1   outpu
 压缩 gif 图片 ImageMagic
 convert -fuzz 15% OpeningManimExample.gif -layers Optimize op_ome.gif
 ```
+
+### 使用遇到的一些问题
+\# [文档笔记](xxx.md)
+
 
 ### 基础服务编排
 
