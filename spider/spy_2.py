@@ -79,4 +79,9 @@ def make_wordclound():
 
 
 if __name__ == "__main__":
-    make_wordclound()
+    # make_wordclound()
+    str ='360\xe5\x8a\xa0\xe5\x9b\xba'
+    str ='\xe7\x88\xb1\xe5\x8a\xa0\xe5\xaf\x86'
+    print(str.encode('raw_unicode_escape').decode('utf-8'))
+    print("数据组开发".encode())
+
