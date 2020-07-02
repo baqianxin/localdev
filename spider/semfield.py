@@ -3,7 +3,7 @@ import csv
 # print("insert into domain_sem_field(`type`,`real_id`,`text`,`parent_id`,`level`) values ")
 
 # sql2 = "( '%s','0','1' )"
-# file = open('C:\\Users\\baqianxin\\Documents\\asdasd.csv','r')
+# file = open('asdasd.csv','r')
 # file.readline()
 
 # for i in file.readlines():
@@ -16,8 +16,8 @@ import csv
 print("insert into domain_sem_field(`type`,`parent_id`,`real_id`,`text`,`level`) values ")
 
 sql2 = "( '%s','3' )"
-# file = open('C:\\Users\\baqianxin\\Documents\\jihuadanyuan.csv', 'r')
-file = open('C:\\Users\\baqianxin\\Documents\\danyuankeywords.csv', 'r')
+# file = open('jihuadanyuan.csv', 'r')
+file = open('danyuankeywords.csv', 'r')
 file.readline()
 
 for i in file.readlines():
