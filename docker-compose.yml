@@ -45,23 +45,23 @@ services:
       - ./logs:/opt/logs
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-    restart:
-      always
+    restart: always
 
   redis:
     build: ./server/redis
     ports:
       - "6379:6379"
 
-  mongodb:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - ~/mongodata:/data/db
+  # mongodb:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - ~/mongodata:/data/db
 
   elk:
     image: sebp/elk
+    container_name: elk
     volumes:
       - ./logs/elasticsearch:/opt/elasticsearch/logs
       - ./config/elk/kibana.yml:/opt/kibana/config/kibana.yml
@@ -79,28 +79,28 @@ services:
     links:
       - elk
     environment:
-      KIBANA_HOST: 'elk:5601'
-      ELASTICSEARCH_HOSTS: 'elk:9200'
-      ELASTICSEARCH_USERNAME: ''
-      ELASTICSEARCH_PASSWORD: ''
+      KIBANA_HOST: "elk:5601"
+      ELASTICSEARCH_HOSTS: "elk:9200"
+      ELASTICSEARCH_USERNAME: ""
+      ELASTICSEARCH_PASSWORD: ""
 
-  canal:
-    image: canal/canal-server
-    ports:
-      - 2222:2222
-      - 8000:8000
-      - 11111:11111
-      - 11112:11112
-    links:
-      - mysql
-    environment:
-      canal.destinations: 'test'
-      canal.instance.master.address: 'mysql:3306'
-      canal.instance.dbUsername: 'canal'
-      canal.instance.dbPassword: 'canal'
-      canal.instance.connectionCharset: 'UTF-8'
-      canal.instance.tsdb.enable: 'true'
-      canal.instance.gtidon: 'false'
+  # canal:
+  #   image: canal/canal-server
+  #   ports:
+  #     - 2222:2222
+  #     - 8000:8000
+  #     - 11111:11111
+  #     - 11112:11112
+  #   links:
+  #     - mysql
+  #   environment:
+  #     canal.destinations: 'test'
+  #     canal.instance.master.address: 'mysql:3306'
+  #     canal.instance.dbUsername: 'canal'
+  #     canal.instance.dbPassword: 'canal'
+  #     canal.instance.connectionCharset: 'UTF-8'
+  #     canal.instance.tsdb.enable: 'true'
+  #     canal.instance.gtidon: 'false'
 
   jobmanager:
     image: ${FLINK_DOCKER_IMAGE_NAME:-flink}
@@ -128,17 +128,15 @@ services:
       - ./www:/opt/htdocs
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
-
-  jiagu-mini:
-    container_name: centos7
-    image:  oomcc/centos7:latest
-    privileged: true
-    volumes: 
-      - ./www:/opt/htdocs
-      - ./data:/data
-    ports:
-      - 81:80
-      - 443:443
-      - 21:21
-      - 9527:9527
-
+  # jiagu-mini:
+  #   container_name: centos7
+  #   image:  oomcc/centos7:latest
+  #   privileged: true
+  #   volumes:
+  #     - ./www:/opt/htdocs
+  #     - ./data:/data
+  #   ports:
+  #     - 81:80
+  #     - 443:443
+  #     - 21:21
+  #     - 9527:9527
