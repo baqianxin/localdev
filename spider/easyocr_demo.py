@@ -5,7 +5,7 @@ from PIL import ImageDraw, Image
 import urllib.request as urllib
 import matplotlib.pyplot as plt
 
-url = 'http://a4.att.hudong.com/48/36/01300536763966137011362221325.jpg'
+url = 'https://bkimg.cdn.bcebos.com/pic/a8ec8a13632762d08a393429aaec08fa513dc625'
 r = urllib.urlopen(url)
 f = open('demo.jpg', 'wb')
 f.write(r.read())

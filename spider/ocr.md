@@ -7,7 +7,7 @@
 ## 服务环境    
     docker pull ufoym/deepo
     docker pull hub-mirror.c.163.com/ufoym/deepo
-    docker  run -it -p 6666:8080 -v data:/data --name ocr ufoym/deepo:latest 
+    docker run -it -p 6666:8080 -v data:/data --name ocr ufoym/deepo:latest 
     
     
     # docker-compose

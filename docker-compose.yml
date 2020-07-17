@@ -128,15 +128,27 @@ services:
       - ./www:/opt/htdocs
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  # jiagu-mini:
-  #   container_name: centos7
-  #   image:  oomcc/centos7:latest
-  #   privileged: true
-  #   volumes:
-  #     - ./www:/opt/htdocs
-  #     - ./data:/data
-  #   ports:
-  #     - 81:80
-  #     - 443:443
-  #     - 21:21
-  #     - 9527:9527
+  jiagu-mini:
+    container_name: centos7
+    image: oomcc/centos7:latest
+    privileged: true
+    volumes:
+      - ./www:/opt/htdocs
+      - ./data:/data
+      - ./www/source:/root/source
+    ports:
+      - 81:80
+      - 443:443
+      - 21:21
+      - 9527:9527
+  ocr2:
+    image: oomcc/ocr:latest
+    container_name: ocr2
+    working_dir: /data/chineseocr_lite
+    volumes:
+      - "./spider:/data"
+    ports:
+      - "7777:8080"
+    entrypoint: /bin/bash -c "python app.py 8080"
+    stdin_open: true
+    tty: true
