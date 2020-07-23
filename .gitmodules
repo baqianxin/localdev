@@ -1,3 +1,6 @@
 [submodule "golang/example"]
 	path = golang/example
 	url = git@github.com:baqianxin/examples.git
+[submodule "spider/chineseocr_lite"]
+	path = spider/chineseocr_lite
+	url = git@github.com:baqianxin/chineseocr_lite.git
