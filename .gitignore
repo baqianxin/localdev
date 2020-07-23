@@ -8,3 +8,4 @@ pdata
 crlog
 scaner
 .sonar
+nodejs/node_modules/
