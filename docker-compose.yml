@@ -21,6 +21,8 @@ services:
     links:
       - "mysql"
       - "redis"
+      - "rabbitmq-management"
+      - "mongodb"
     volumes:
       - ./www/quclient:/home/q/php/quclient
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
@@ -53,38 +55,52 @@ services:
     ports:
       - "6379:6379"
 
-  # mongodb:
-  #   image: mongo
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - ~/mongodata:/data/db
-
-  elk:
-    image: sebp/elk
-    container_name: elk
-    volumes:
-      - ./logs/elasticsearch:/opt/elasticsearch/logs
-      - ./config/elk/kibana.yml:/opt/kibana/config/kibana.yml
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
-
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:7.3.1
-    volumes:
-      - ./logs:/opt/logs
-      - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./config/filebeat/modules.d:/usr/share/filebeat/modules.d
-    links:
-      - elk
+  rabbitmq-management:
+    image: rabbitmq:management
     environment:
-      KIBANA_HOST: "elk:5601"
-      ELASTICSEARCH_HOSTS: "elk:9200"
-      ELASTICSEARCH_USERNAME: ""
-      ELASTICSEARCH_PASSWORD: ""
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASSWORD: guest
+      RABBITMQ_DEFAULT_VHOST: /
 
+      RABBITMQ_MANAGEMENT_SSL_VERIFY: verify_none
+      RABBITMQ_MANAGEMENT_SSL_FAIL_IF_NO_PEER_CERT: "false"
+    volumes:
+      - ./tests/files/rootCA.pem:/rootCA.pem:ro
+      - ./tests/files/rootCA.key:/rootCA.key:ro
+    ports:
+      - 15671:15671
+      - 15672:15672
+      - 5671:5671
+      - 5672:5672
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/mongodata:/data/db
+  # elk:
+  #   image: sebp/elk
+  #   container_name: elk
+  #   volumes:
+  #     - ./logs/elasticsearch:/opt/elasticsearch/logs
+  #     - ./config/elk/kibana.yml:/opt/kibana/config/kibana.yml
+  #   ports:
+  #     - "5601:5601"
+  #     - "9200:9200"
+  #     - "5044:5044"
+  # filebeat:
+  #   image: docker.elastic.co/beats/filebeat:7.3.1
+  #   volumes:
+  #     - ./logs:/opt/logs
+  #     - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+  #     - ./config/filebeat/modules.d:/usr/share/filebeat/modules.d
+  #   links:
+  #     - elk
+  #   environment:
+  #     KIBANA_HOST: "elk:5601"
+  #     ELASTICSEARCH_HOSTS: "elk:9200"
+  #     ELASTICSEARCH_USERNAME: ""
+  #     ELASTICSEARCH_PASSWORD: ""
   # canal:
   #   image: canal/canal-server
   #   ports:
@@ -102,4 +118,3 @@ services:
   #     canal.instance.connectionCharset: 'UTF-8'
   #     canal.instance.tsdb.enable: 'true'
   #     canal.instance.gtidon: 'false'
-

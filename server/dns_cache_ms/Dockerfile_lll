@@ -1,0 +1,4 @@
+FROM r.addops.soft.360.cn/library/nginxphp-70-el6:latest
+
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+

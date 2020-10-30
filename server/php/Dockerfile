@@ -25,7 +25,7 @@ RUN apt-get update \
         libmcrypt-dev \
         libpng-dev \
     # 安装扩展
-    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-install -j$(nproc) iconv opcache pnctl \
     # 如果安装的扩展需要自定义配置时
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
@@ -45,6 +45,8 @@ COPY extension/tideways_xhprof.so /usr/local/lib/php/extensions/no-debug-non-zts
 COPY extension/docker-php-ext-mongodb.ini /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini
 COPY extension/mongodb.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/mongodb.so
 COPY extension/docker-php-ext-yaf.ini /usr/local/etc/php/conf.d/docker-php-ext-yaf.ini
+COPY extension/mysqli.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/mysqli.so
+
 
 RUN apt-get clean \
     && apt-get autoremove

@@ -1,5 +1,5 @@
 FROM centos:centos7
-MAINTAINER oom <baqianxin@163.com>
+LABEL AUTHOR="oom <baqianxin@163.com>"
 
 ENV TZ "Asia/Shanghai"
 
