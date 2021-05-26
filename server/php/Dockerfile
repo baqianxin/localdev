@@ -2,7 +2,7 @@ FROM php:7.3-fpm
 MAINTAINER oomcc <baqianxin@163.com>
 ARG PHALCON_VERSION=3.4.2
 ARG PHALCON_EXT_PATH=php7/64bits
-
+ADD sources.list /etc/apt/sources.list
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/Shanghai" > /etc/timezone
 
@@ -18,19 +18,20 @@ RUN set -xe && \
 
 RUN apt-get update \
 	# 相关依赖必须手动安装
-	&& apt-get install -y \
-        libzip-dev \
+	&& apt-get install -y --allow-downgrades \
+        libzip-dev zlib1g-dev zlib1g=1:1.2.8.dfsg-2+b1 \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
     # 安装扩展
-    && docker-php-ext-install -j$(nproc) iconv opcache pnctl \
+    && docker-php-ext-install -j$(nproc) iconv opcache \
     # 如果安装的扩展需要自定义配置时
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-ADD sources.list /etc/apt/sources.list
+
+
 
 RUN apt-get update && apt-get install -y
 
@@ -46,7 +47,34 @@ COPY extension/docker-php-ext-mongodb.ini /usr/local/etc/php/conf.d/docker-php-e
 COPY extension/mongodb.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/mongodb.so
 COPY extension/docker-php-ext-yaf.ini /usr/local/etc/php/conf.d/docker-php-ext-yaf.ini
 COPY extension/mysqli.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/mysqli.so
+COPY extension/pcntl.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731/pcntl.so
 
+ENV LIBRDKAFKA_VERSION v0.9.5
+ENV BUILD_DEPS \
+        build-essential \
+        libssl-dev \
+        python-minimal \
+        zlib1g-dev wget unzip
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ${BUILD_DEPS} \
+    && cd /tmp \
+    && wget https://codeload.github.com/edenhill/librdkafka/zip/master \
+    && unzip master && cd librdkafka-master \
+    # && git clone \
+    #     --branch ${LIBRDKAFKA_VERSION} \
+    #     --depth 1 \
+    #     https://github.com/edenhill/librdkafka.git \
+    # && cd librdkafka \
+    && ./configure \
+    && make \
+    && make install \
+    && pecl install rdkafka \
+    && docker-php-ext-enable rdkafka \
+    && rm -rf /tmp/librdkafka \
+    && apt-get purge \
+        -y --auto-remove \
+        -o APT::AutoRemove::RecommendsImportant=false \
+        ${BUILD_DEPS}
 
 RUN apt-get clean \
     && apt-get autoremove

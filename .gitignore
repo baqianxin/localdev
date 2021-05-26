@@ -10,3 +10,7 @@ scaner
 .sonar
 nodejs/node_modules/
 gitlab
+server/dns_cache_ms
+360pro
+360pro/*
+360pro/**/*

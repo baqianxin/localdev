@@ -5,6 +5,7 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     links:
       - "php"
     volumes:
@@ -21,8 +22,8 @@ services:
     links:
       - "mysql"
       - "redis"
-      - "rabbitmq-management"
-      - "mongodb"
+      # - "rabbitmq-management"
+      # - "mongodb"
     volumes:
       - ./www/quclient:/home/q/php/quclient
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
@@ -50,34 +51,75 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     restart: always
 
+  # php-nginx: 
+  #   image: r.addops.soft.360.cn/dns-cache-ms/nginx-php:7.3
+  #   ports: 
+  #     - "8800:80"
+  #   volumes:
+  #     - ./www/dns/dns_cache_ms:/home/q/system/dns_cache_ms
+  #     - ./server/dns_cache_ms/nginx.conf:/usr/local/nginx/conf/nginx.conf
+  # php-xhgui: 
+  #   image: r.addops.soft.360.cn/dns-cache-ms/php-xhgui:0.14.1
+  #   ports:
+  #     - "8801:80"  
   redis:
     build: ./server/redis
     ports:
       - "6379:6379"
 
-  rabbitmq-management:
-    image: rabbitmq:management
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASSWORD: guest
-      RABBITMQ_DEFAULT_VHOST: /
+  # rabbitmq-management:
+  #   image: rabbitmq:management
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: guest
+  #     RABBITMQ_DEFAULT_PASSWORD: guest
+  #     RABBITMQ_DEFAULT_VHOST: /
 
-      RABBITMQ_MANAGEMENT_SSL_VERIFY: verify_none
-      RABBITMQ_MANAGEMENT_SSL_FAIL_IF_NO_PEER_CERT: "false"
-    volumes:
-      - ./tests/files/rootCA.pem:/rootCA.pem:ro
-      - ./tests/files/rootCA.key:/rootCA.key:ro
+  #     RABBITMQ_MANAGEMENT_SSL_VERIFY: verify_none
+  #     RABBITMQ_MANAGEMENT_SSL_FAIL_IF_NO_PEER_CERT: "false"
+  #   volumes:
+  #     - ./tests/files/rootCA.pem:/rootCA.pem:ro
+  #     - ./tests/files/rootCA.key:/rootCA.key:ro
+  #   ports:
+  #     - 15671:15671
+  #     - 15672:15672
+  #     - 5671:5671
+  #     - 5672:5672
+  # mongodb:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - ~/mongodata:/data/db
+  # myzipkin:
+  #   container_name: myzipkin
+  #   image: openzipkin/zipkin
+  #   ports:
+  #     - "9411:9411"
+  #   environment: 
+  #     STORAGE_TYPE: mysql 
+  #     MYSQL_HOST: mysql 
+  #     MYSQL_TCP_PORT: 3306 
+  #     MYSQL_USER: root 
+  #     MYSQL_PASS: 123456 
+  #     MYSQL_DB: zipkin
+
+
+  zookeeper:
+    image: wurstmeister/zookeeper
     ports:
-      - 15671:15671
-      - 15672:15672
-      - 5671:5671
-      - 5672:5672
-  mongodb:
-    image: mongo
+      - 2181:2181
+      
+  kafka:
+    image: wurstmeister/kafka
     ports:
-      - "27017:27017"
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
-      - ~/mongodata:/data/db
+      - /var/run/docker.sock:/var/run/docker.sock
+
   # elk:
   #   image: sebp/elk
   #   container_name: elk
